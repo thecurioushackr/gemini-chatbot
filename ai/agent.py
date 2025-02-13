@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 class AthenaAgent:
     def __init__(self, user_id: UUID, model_cache_dir: Optional[str] = None):
         self.user_id = user_id
-        self.model_name = "gemini-1.5-pro-002"
+        self.model_name = "gemini-2.0-pro-exp-02-05"
         self.memory_manager = MemoryManager(user_id)
         self.rag_system = AdvancedRAGSystem()
         self.image_generator = AdvancedImageGenerator(cache_dir=model_cache_dir)
@@ -145,25 +145,7 @@ class AthenaAgent:
                         temperature=0.7,
                         top_p=0.95,
                         top_k=40,
-                        max_output_tokens=2048,
-                        safety_settings=[
-                            {
-                                "category": "HARM_CATEGORY_HARASSMENT",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            },
-                            {
-                                "category": "HARM_CATEGORY_HATE_SPEECH",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            },
-                            {
-                                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            },
-                            {
-                                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
-                                "threshold": "BLOCK_MEDIUM_AND_ABOVE"
-                            }
-                        ]
+                        max_output_tokens=8196,
                     )
                 )
                 
