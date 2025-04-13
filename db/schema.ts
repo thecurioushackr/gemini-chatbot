@@ -7,7 +7,11 @@ import {
   json,
   uuid,
   boolean,
+  text,
+  real,
 } from "drizzle-orm/pg-core";
+
+import { vector } from "./vector";
 
 export const user = pgTable("User", {
   id: uuid("id").primaryKey().notNull().defaultRandom(),
@@ -41,3 +45,18 @@ export const reservation = pgTable("Reservation", {
 });
 
 export type Reservation = InferSelectModel<typeof reservation>;
+
+// Memory System Tables
+export const memory = pgTable("Memory", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  content: text("content").notNull(),
+  timestamp: timestamp("timestamp").notNull(),
+  type: varchar("type", { length: 16 }).notNull(), // 'episodic' or 'semantic'
+  importance: real("importance").notNull(),
+  embedding: vector("embedding", { dimensions: 768 }), // Gemini embedding dimension
+  userId: uuid("userId")
+    .notNull()
+    .references(() => user.id),
+});
+
+export type Memory = InferSelectModel<typeof memory>;
